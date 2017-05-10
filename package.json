@@ -1,0 +1,19 @@
+{
+  "name": "pdfparser",
+  "version": "1.0.0",
+  "description": "Parse PDF into multiple files by account",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WillCHansen/pdfParser.git"
+  },
+  "author": "Will",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WillCHansen/pdfParser/issues"
+  },
+  "homepage": "https://github.com/WillCHansen/pdfParser#readme"
+}
