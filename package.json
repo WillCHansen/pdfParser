@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/WillCHansen/pdfParser/issues"
   },
-  "homepage": "https://github.com/WillCHansen/pdfParser#readme"
+  "homepage": "https://github.com/WillCHansen/pdfParser#readme",
+  "dependencies": {
+    "ipp": "^1.1.0",
+    "ipp-encoder": "^5.0.0",
+    "node-printer": "^1.0.2",
+    "pdf2json": "^1.1.7",
+    "pdfkit": "^0.8.0",
+    "should": "^11.2.1"
+  }
 }
