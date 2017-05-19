@@ -1,7 +1,8 @@
+var PDFDocument = require("pdfkit");
 let fs = require('fs')
-var ipp = require('ipp');
-
-// var ipp = require('ipp-encoder')
+var ipp2 = require('ipp');
+var uri = "http://10.1.205.71";
+var ipp = require('ipp-encoder')
 // var C = ipp.CONSTANTS
 
 // // decode binary buffer from IPP client
@@ -9,10 +10,277 @@ var ipp = require('ipp');
 
 // // ...handle request...
 
-fs.readFile("u:/pdfParser/test.txt", function(err, data){
-	// console.log(ipp.response.decode(data))
-	console.log(JSON.stringify(ipp.parse(data),null,2));
-})
+// var doc = new PDFDocument;
+// doc.text("Hello World");
+// var buffers = [];
+// doc.on('data', buffers.push.bind(buffers));
+// doc.on('end', function () {
+//   var msg = {
+//       "operation":"Print-Job",
+//       "operation-attributes-tag": {
+//           "attributes-charset": "utf-8",
+//           "attributes-natural-language": "en",
+//           "printer-uri": uri,
+//           "document-format": "application/pdf"
+//       },
+//       "job-attributes-tag": {
+//         "media-col": {
+//             "media-source": "tray-2"
+//           },
+//           "copies": "2"
+//       },
+//       "data": Buffer.concat(buffers)
+//   }
+// fs.writeFile("u:/pdfParser/test1.txt", ipp2.serialize(msg))
+  // ipp2.request(uri, ipp2.serialize(msg), function(err, res){
+	// if(err){
+	// 	return console.log(err);
+	// }
+	// console.log(JSON.stringify(res,null,2));
+// })
+
+  // fs.writeFile("u:/pdfParser/test1.txt", ipp2.serialize(msg))
+  // console.log("done")
+// });
+// doc.end();
+
+// fs.readFile("u:/pdfParser/test1.txt", function(err, data){
+//   // ipp2.request(uri, data, function(err, res){
+// 	// if(err){
+// 	// 	return console.log(err);
+// 	// }
+// 	console.log(JSON.stringify(ipp.response.decode(data),null,2));
+// })
+// })
+
+// 	// console.log(JSON.stringify(ipp.response.decode(data),null,2))
+// 	// console.log(JSON.stringify(ipp2.parse(data),null,2));
+// })
+
+
+var test = {
+  "version": {
+    "major": 2,
+    "minor": 0
+  },
+  "groups": [
+    {
+      "tag": 1,
+      "attributes": [
+        {
+          "tag": 71,
+          "name": "attributes-charset",
+          "value": [
+            "utf-8"
+          ]
+        },
+        {
+          "tag": 72,
+          "name": "attributes-natural-language",
+          "value": [
+            "en"
+          ]
+        },
+        {
+          "tag": 69,
+          "name": "printer-uri",
+          "value": [
+            "http://10.1.205.71"
+          ]
+        },
+        {
+          "tag": 68,
+          "name": "requested-attributes",
+          "value": [
+            "job-template"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": 2,
+      "attributes": [
+        {
+          "tag": 52,
+          "name": "media-col",
+          "value": [
+            "media-source",
+            "tray-2"
+          ]
+        }
+      ]
+    }
+  ],
+  "requestId": 87280824,
+  "statusCode": 0
+}
+
+
+// var doc = new PDFDocument;
+// doc.text("Hello World");
+
+// var buffers = [];
+// doc.on('data', buffers.push.bind(buffers));
+// doc.on('end', function () {
+//   var msg = {
+//       "operation-attributes-tag": {
+//           "attributes-charset": "utf-8",
+//           "attributes-natural-language": "en",
+//           "printer-uri": uri,
+//           "document-format": "application/pdf"
+//       },
+//       "job-attributes-tag": {
+//         "media-col": {
+//             "media-source": "tray-2"
+//           },
+//           "copies": "2"
+//       },
+//       "data": Buffer.concat(buffers)
+//   }
+
+//   fs.writeFile("u:/pdfParser/test1.txt", ipp2.serialize(msg))
+//   console.log("done")
+// });
+// doc.end();
+
+
+
+// console.log(ipp2.serialize(msg))
+
+
+
+// var zone = new Buffer(2)
+// var date = new Date(2015, 11, 1, 1, 23, 45, 678)
+// var sign = date.getTimezoneOffset() > 0 ? '2d' : '2b'
+// var dateHex = '07df0c0101172d06' + sign + zone.toString('hex')
+
+// var test = new Buffer(
+//   '0200'+ //version
+//   '0000'+ //status code
+//   '01eb9c9a01470'+
+//   '01'+ //operations attributes tag
+//     '26'+ //value tag
+//     '17474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650002656e45000b7072696e7465722d7572690012687474703a2f2f31302e312e3230352e373149000f646f63756d656e742d666f726d6174000f6170706c69636174696f6e2f706466023400096d656469612d636f6c00004a0012000c6d656469612d736f757263654a00000006747261792d323700000000210006636f7069657300040000000203','hex')
+
+var test = new Buffer(
+  '0200'+ //version
+  '0000'+ //status code
+  '01eb9c9a'+
+  '01'+ //operation attributes tag
+    '47'+ //charset tag
+    '0012'+ // length
+    '617474726962757465732d63686172736574'+ //attributes-charset
+    '0005'+ //length
+    '7574662d38'+ //utf-8
+    '48'+ //natural language tag
+    '001b'+// length
+    '617474726962757465732d6e61747572616c2d6c616e6775616765'+ //attributes-natural-language
+    '0002'+ //length
+    '656e'+ //en (english)
+    '45'+ // URI tag
+    '000b'+ // length
+    '7072696e7465722d757269'+ //printer-uri
+    '0012'+ // length
+    '687474703a2f2f31302e312e3230352e3731'+ // http://10.1.205.71
+    '49'+ //tag maybe?
+    '000f'+ // length
+    '646f63756d656e742d666f726d6174'+ //document-format
+    '000f'+ // length
+    '6170706c69636174696f6e2f706466'+ //application/pdf
+  // '02'+ //job attributes tag
+    // '34'+ //begin collection
+    // '0009'+ // length
+    // '6d656469612d636f6c'+ //media-col
+    // '0000'+
+    // '4a'+ //collection entry
+    // '000c'+ //length
+    // '0c6d656469612d736f75726365'+ //media-source
+    // '0000'+
+    // '4a'+ //collection entry
+    // '0006'+ //length
+    // '747261792d32'+ //tray-2
+    // '0000'+
+    // '37'+//end collection
+    // '00000000210006636f70696573000400000002'+
+    '03' //end of attributes
+    ,'hex')
+console.log(JSON.stringify(ipp2.parse(test),null,2));
+// console.log(ipp2.parse(test))
+
+// var expected = new Buffer(
+//         '0101' + // version
+//         '0000' + // statusCode
+//         '0000002a' + // requestId
+//         '01' + // delimiter tag
+//           '44' + // value tag
+//             '0006' + // name length
+//             '737472696e67' + // name
+//             '0003' + // value length
+//             '666f6f' + // value
+//           '44' + // value tag
+//             '0005' + // name length
+//             '6172726179' + // name
+//             '0003' + // value length
+//             '666f6f' + // value
+//           '44' + // value tag
+//             '0000' + // name length
+//             '' + // name
+//             '0003' + // value length
+//             '626172' + // value
+//           '22' + // value tag
+//             '0004' + // name length
+//             '626f6f6c' + // name
+//             '0001' + // value length
+//             '01' + // value
+//           '23' + // value tag
+//             '0004' + // name length
+//             '656e756d' + // name
+//             '0004' + // value length
+//             '0000002a' + // value
+//         '02' + // delimiter tag
+
+
+//           '34'+ //begin col tag
+//             '0009'+ //name length
+//             '6d656469612d636f6c'+ //media-col
+//             '4a'+ //mem attr
+//             '0012'+ //length
+//             '6d656469612d736f75726365'+ //media-source
+//             '41'+ //tag
+//             '0006'+ //length
+//             '747261792d32'+ //tray-2
+            
+//           '37'+ //end col tag
+
+
+//           '44' + // value tag
+//             '0006' + // name length
+//             '737472696e67' + // name
+//             '0003' + // value length
+//             '666f6f' + // value
+//           '36' + // value tag
+//             '0012' + // name length
+//             '6e616d652d776974682d6c616e6775616765' + // name
+//             '000c' + // value length
+//             '0005' + // sub-value length
+//             '66722d4341' + // sub-value
+//             '0003' + // sub-value length
+//             '666f75' + // name
+//           '31' + // value tag
+//             '0009' + // name length
+//             '646174652d74696d65' + // name
+//             '000b' + // value length
+//             dateHex + // value
+//         '03', // end of attributes tag
+//         'hex')
+
+
+
+// console.log(JSON.stringify(ipp.request.decode(expected),null,2));
+// console.log(JSON.stringify(ipp.request.encode(test),null,2));
+
+
+
 
 // {
 //   "version": {
