@@ -1,151 +1,46 @@
-var PDFDocument = require("pdfkit");
-let fs = require('fs')
-var ipp2 = require('ipp');
-var uri = "http://10.1.205.71";
-var ipp = require('ipp-encoder')
+var cmd = require('node-cmd');
+var fs = require('fs');
+var PDFParser = require("pdf2json");
 
-// U:\pdfParser\work\Provider Inquiry Form.pdf
+// cmd.get('pdftk C:\\Users\\whansen\\Desktop\\pdfParser\\work\\test.pdf cat 2 output C:\\Users\\whansen\\Desktop\\pdfParser\\work\\output.pdf', function(err, data, stderr){
+//   console.log('the current working dir is : ',data)
+// });
+// pdftk C:\\Users\\whansen\\Desktop\\pdfParser\\work\\test.pdf cat 2 output C:\\Users\\whansen\\Desktop\\pdfParser\\work\\output.pdf
+//pdftk C:\Users\whansen\Desktop\pdfParser\work\test.pdf cat 1-1 output C:\Users\whansen\Desktop\pdfParser\work\output.pdf
 
-var msg = new Buffer(
-  '0200'+ //Version
-  '000201e6d5f2'+
-  '01'+ //Operation attributes tag
-    '47'+ //charset tag
-    '0012'+ //length
-    '617474726962757465732d63686172736574'+ //attributes-charset
-    '0005'+ //length
-    '7574662d38'+ //utf-8
-    '48'+ //natural language tag
-    '001b'+ //length
-    '617474726962757465732d6e61747572616c2d6c616e6775616765'+//attributes-natural-language
-    '0002'+//length
-    '656e'+ //en
-    '45'+ // URI tag
-    '000b'+ //length
-    '7072696e7465722d757269'+ //printer-uri
-    '0012'+//length
-    '687474703a2f2f31302e312e3230352e3731'+//http://10.1.205.71
-    '49'+ //mimeMediaType tag
-    '000f'+ //length
-    '646f63756d656e742d666f726d6174'+ //document format
-    '000f'+ //length
-    '6170706c69636174696f6e2f706466'+ //application/pdf
-  '02'+ //job attributes tag
-    '34'+ //begin collection
-      '0009'+ //length
-      '6d656469612d636f6c'+ //media-col
-      '0000'+ //value length
-      '4a'+ //collection entry
-      '0000'+ //name length
-      '000c'+ //value length
-      '6d656469612d736f75726365'+ //media-source
-      '44'+ // collection entry
-      '0000'+ //name length
-      '0006'+ //value length
-      '747261792d32'+ //tray-2
-    '37'+ //end of collection
-    '00000000'+ //name length and value length
-  '03', 'hex');
 
-var readStream = fs.createReadStream("U:\\pdfParser\\work\\Provider Inquiry Form.pdf");
 
-var buffers = [];
-readStream.on('data', buffers.push.bind(buffers));
-readStream.on('end', function(){
-  var buf = Buffer.concat(buffers);
-  console.log(buf);
-  var catBuf = Buffer.concat([msg, buf]);
-  ipp2.request(uri, catBuf, function(err, res){
-    if(err){
-      return console.log(err);
-    }
-    console.log(JSON.stringify(res,null,2));
-  });
+
+let pdfParser = new PDFParser();
+
+var acnArr = [];
+
+pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
+pdfParser.on("pdfParser_dataReady", pdfData => {
+    // console.log(pdfData.formImage.Pages[0]);
+
+    for (i=0; i<pdfData.formImage.Pages.length; i++){
+        // console.log(pdfData.formImage.Pages[i].Texts.length);
+        for (y=0; y<pdfData.formImage.Pages[i].Texts.length; y++){
+            // console.log(pdfData.formImage.Pages[i].Texts[y].x);
+            if (pdfData.formImage.Pages[i].Texts[y].x === 11.177 &&
+            pdfData.formImage.Pages[i].Texts[y].y == 43.258 &&
+            pdfData.formImage.Pages[i].Texts[y].w == 86.4 &&
+            pdfData.formImage.Pages[i].Texts[y].sw == 0.78125 &&
+            pdfData.formImage.Pages[i].Texts[y].clr == 0 &&
+            pdfData.formImage.Pages[i].Texts[y].A == "left"){
+                acnArr.push({
+                    claimNum: pdfData.formImage.Pages[i].Texts[y].R[0].T,
+                    pageNum: i+1
+                });
+                // console.log(pdfData.formImage.Pages[i].Texts[y].R[0].T);
+            }
+        };
+        // console.log(pdfData.formImage.Pages[i].);
+    };
+    console.log(acnArr);
+    // fs.writeFile("u:/pdfParser/work/export.json", JSON.stringify(pdfData, null, 2));
 });
-// readStream.end();
-// var doc = new PDFDocument;
-// doc.text("Hello World");
 
-// var buffers = [];
-// doc.on('data', buffers.push.bind(buffers));
-// doc.on('end', function () {
-  // var msg = {
-  //     "operation-attributes-tag": {
-  //         "attributes-charset": "utf-8",
-  //         "attributes-natural-language": "en",
-  //         "printer-uri": uri,
-  //         "document-format": "application/pdf"
-  //     },
-  //     "job-attributes-tag": {
-  //       "media-col": {
-  //           "media-source": "tray-2"
-  //         },
-  //         "copies": "2"
-  //     },
-  //     "data": Buffer.concat(buffers)
-  // }
+pdfParser.loadPDF("c:/users/whansen/desktop/pdfparser/work/test.pdf");
 
-//   fs.writeFile("u:/pdfParser/test1.txt", ipp2.serialize(msg))
-//   console.log("done")
-// });
-// doc.end();
-
-
-  
-// var doc = new PDFDocument;
-// doc.text("Hello World");
-// var buffers = [];
-// doc.on('data', buffers.push.bind(buffers));
-// doc.on('end', function () {
-//   var data = Buffer.concat(buffers);
-//   var catBuf = Buffer.concat([msg, data]);
-//   ipp2.request(uri, catBuf, function(err, res){
-//     if(err){
-//       return console.log(err);
-//     }
-//     console.log(JSON.stringify(res,null,2));
-//   });
-// });
-// doc.end();
-
-// console.log(JSON.stringify(ipp.request.decode(msg),null,2));
-
-
-
-// let fs = require('fs'),
-//     PDFParser = require("pdf2json");
-
-// var exec = require('child_process').exec;
-
-// let pdfParser = new PDFParser();
-
-// var acnArr = [];
-
-// pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
-// pdfParser.on("pdfParser_dataReady", pdfData => {
-//     // console.log(pdfData.formImage.Pages[0]);
-
-//     for (i=0; i<pdfData.formImage.Pages.length; i++){
-//         // console.log(pdfData.formImage.Pages[i].Texts.length);
-//         for (y=0; y<pdfData.formImage.Pages[i].Texts.length; y++){
-//             // console.log(pdfData.formImage.Pages[i].Texts[y].x);
-//             if (pdfData.formImage.Pages[i].Texts[y].x === 11.177 &&
-//             pdfData.formImage.Pages[i].Texts[y].y == 43.258 &&
-//             pdfData.formImage.Pages[i].Texts[y].w == 86.4 &&
-//             pdfData.formImage.Pages[i].Texts[y].sw == 0.78125 &&
-//             pdfData.formImage.Pages[i].Texts[y].clr == 0 &&
-//             pdfData.formImage.Pages[i].Texts[y].A == "left"){
-//                 acnArr.push({
-//                     claimNum: pdfData.formImage.Pages[i].Texts[y].R[0].T,
-//                     pageNum: i+1
-//                 });
-//                 // console.log(pdfData.formImage.Pages[i].Texts[y].R[0].T);
-//             }
-//         };
-//         // console.log(pdfData.formImage.Pages[i].);
-//     };
-//     console.log(acnArr);
-//     // fs.writeFile("u:/pdfParser/work/export.json", JSON.stringify(pdfData, null, 2));
-// });
-
-// // pdfParser.loadPDF("u:/pdfParser/work/test.pdf");
