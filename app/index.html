@@ -7,19 +7,42 @@
     <title>HIM Tools</title>
   </head>
   <body>
-    <h1 class="jumbotron">HIM Tools</h1>
+    <!--<h1 class="jumbotron">HIM Tools</h1>-->
 
     <!--/*We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.*/-->
 
+    <div class="container col-sm-5 spacing">
+      <div class="panel panel-default">
+        <div class="panel-heading">Claim Splitter</div>
+        <div class="panel-body">
+          <div class="col-sm-12 spacing">
+            <input type="text" id="claim-input-path" placeholder="Input PDF" readonly>
+            <button id="claim-input-button" class="btn-default">Browse</button>
+          </div>
+          <div class="col-sm-12 spacing">
+            <input type="text" id="claim-output-path" placeholder="Output Folder" readonly>
+            <button id="claim-output-button" class="btn-default">Browse</button>
+          </div>
+          <div class="col-sm-5 col-sm-offset-6 spacing">
+            <button id="claim-split-start" class="btn-success">Start</button>
+            <button id="claim-split-stop" class="btn-danger">Stop</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <section class="controls">
-      <button id="open-file">Open File</button>
+      <button id="open-file-pdf" class="btn-default">Open PDF File</button>
+      <button id="open-file-excel" class="btn-default">Open Excel File</button>
+      <button id="open-folder" class="btn-default">Open Folder containing info</button>
     </section>
 
     <section class="content">
-      <textarea class="raw-markdown"></textarea>
-      <div class="rendered-html"></div>
+
+      <label for="pdf-path">PDF Path:</label>
+      <input type="text" id="pdf-path" readonly>
     </section>
     <script>
       require('./renderer');

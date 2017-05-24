@@ -4,16 +4,33 @@ const ipc = electron.ipcRenderer;
 const mainProcess = remote.require('./app');
 const $ = require('jquery');
 
-const $markdownView = $('.raw-markdown');
-const $htmlView = $('.rendered-html');
-const $openFileButton = $('#open-file');
+const $claimInputPath = $('#claim-input-path');
+const $claimInputButton = $('#claim-input-button');
+const $claimOutputButton = $('#claim-output-button');
+const $claimOutputPath = $('#claim-output-path');
 
 
-ipc.on('file-opened', function (event, file, content) {
-    $markdownView.text(content);
-//   console.log(content);
+ipc.on('claim-input-path', function (event, file) {
+    $claimInputPath.val(file);
 });
 
-$openFileButton.on('click', () => {
-    mainProcess.openFile();
+ipc.on('claim-output-path', function (event, folder) {
+    $claimOutputPath.val(folder);
 });
+
+$claimInputButton.on('click', () => {
+    mainProcess.openDiag(pdfDialog, "claim-input-path");
+});
+
+$claimOutputButton.on('click', () => {
+    mainProcess.openDiag(folderDialog, "claim-output-path");
+});
+
+const pdfDialog = {
+    properties: ['openFile'],
+    filters: [{name: 'PDF Files', extensions: ['pdf']}]
+};
+
+const folderDialog = {
+    properties: ['openDirectory']
+};

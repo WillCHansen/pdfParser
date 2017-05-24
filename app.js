@@ -12,27 +12,22 @@ const url = require('url')
 
 const fs = require('fs');
 
-const openFile = function () {
-  var files = dialog.showOpenDialog(win, {
-    properties: ['openFile']
-  });
-
-  if (!files) { return; }
-
-  var file = files[0];
-  var content = fs.readFileSync(file).toString();
-
-  win.webContents.send('file-opened', file, content);
+const openDiag = function(properties, event){
+    var resp = dialog.showOpenDialog(win, properties);
+    if (!resp) { return; }
+    var resp = resp[0];
+    win.webContents.send(event, resp);
 };
 
-exports.openFile = openFile;
+
+exports.openDiag = openDiag;
 
 
 let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({width: 900, height: 650})
     // require('bootstrap');
 
   // and load the index.html of the app.
@@ -41,9 +36,6 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
-
-//   win.jQuery = require('jquery');
-//   require('bootstrap');
 
   // Open the DevTools.
   win.webContents.openDevTools()
