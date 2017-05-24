@@ -10,7 +10,41 @@ const $claimOutputButton = $('#claim-output-button');
 const $claimOutputPath = $('#claim-output-path');
 
 const $claimSplitStart = $('#claim-split-start');
+
+const $printExcelInputPath = $('#print-excel-input-path');
+const $printClaimInputPath = $('#print-claim-input-path');
+const $printMedrecInputPath = $('#print-medrec-input-path');
+const $printPrinterIp = $('#print-printer-ip');
+const $printExcelButton = $('#print-excel-button');
+const $printClaimInputButton = $('#print-claim-input-button');
+const $printMedrecInputButton = $('#print-medrec-input-button');
+
 // const $claimSplitStop = $('#claim-split-stop');
+
+$printClaimInputButton.on('click', () => {
+    mainProcess.openDiag(folderDialog, "print-claim-input-path");
+});
+
+ipc.on('print-claim-input-path', function (event, file) {
+    $printClaimInputPath.val(file);
+});
+
+$printMedrecInputButton.on('click', () => {
+    mainProcess.openDiag(folderDialog, "print-medrec-input-path");
+});
+
+ipc.on('print-medrec-input-path', function (event, file) {
+    $printMedrecInputPath.val(file);
+});
+
+$printExcelButton.on('click', () => {
+    mainProcess.openDiag(excelDialog, "print-excel-input-path");
+});
+
+ipc.on('print-excel-input-path', function (event, file) {
+    $printExcelInputPath.val(file);
+});
+
 
 const $cons = $('#console');
 
@@ -46,6 +80,11 @@ const pdfDialog = {
 
 const folderDialog = {
     properties: ['openDirectory']
+};
+
+const excelDialog = {
+    properties: ['openFile'],
+    filters: [{name: 'Excel Files', extensions: ['xlsx']}]
 };
 
 $claimSplitStart.on('click', () => {
