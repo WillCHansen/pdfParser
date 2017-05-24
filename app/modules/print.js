@@ -1,8 +1,29 @@
 var PDFDocument = require("pdfkit");
-let fs = require('fs')
+var path = require('path');
+let fs = require('fs');
 var ipp = require('ipp');
 var uri = "http://10.1.205.71";
 
+module.exports = {
+  printWithOptions: function(file, tray, fit){
+    file = path.normalize(file);
+    var readStream = fs.createReadStream(file);
+
+    var buffers = [];
+    readStream.on('data', buffers.push.bind(buffers));
+    readStream.on('end', function(){
+      var buf = Buffer.concat(buffers);
+      console.log(buf);
+      var catBuf = Buffer.concat([msg, buf]);
+      ipp.request(uri, catBuf, function(err, res){
+        if(err){
+          return console.log(err);
+        }
+        console.log(JSON.stringify(res,null,2));
+      });
+    });
+  }
+};
 
 var msg = new Buffer(
   '0200'+ //Version
@@ -44,22 +65,6 @@ var msg = new Buffer(
     '37'+ //end of collection
     '00000000'+ //name length and value length
   '03', 'hex');
-
-var readStream = fs.createReadStream("U:\\pdfParser\\work\\Provider Inquiry Form.pdf");
-
-var buffers = [];
-readStream.on('data', buffers.push.bind(buffers));
-readStream.on('end', function(){
-  var buf = Buffer.concat(buffers);
-  console.log(buf);
-  var catBuf = Buffer.concat([msg, buf]);
-  ipp.request(uri, catBuf, function(err, res){
-    if(err){
-      return console.log(err);
-    }
-    console.log(JSON.stringify(res,null,2));
-  });
-});
 
 // readStream.end();
 // var doc = new PDFDocument;
