@@ -1,4 +1,4 @@
-// var pdfTools = require('./pdfTools.js');
+const pdfTools = require('./app/modules/pdfTools');
 
 // var inputFile = "c://users//whansen//desktop//pdfparser//work//FileServerServlet.pdf";
 // var outputLoc = "c://users//whansen//desktop//pdfparser//work";
@@ -16,12 +16,17 @@ const openDiag = function(properties, event){
     var resp = dialog.showOpenDialog(win, properties);
     if (!resp) { return; }
     var resp = resp[0];
+    console.log("Dialog selection chosen " + resp)
     win.webContents.send(event, resp);
 };
 
+const logEvent = function(data){
+    win.webContents.send("log-event", data);
+}
 
 exports.openDiag = openDiag;
-
+exports.pdfTools = pdfTools;
+console.log = logEvent;
 
 let win
 
@@ -38,7 +43,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+//   win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {

@@ -12,28 +12,50 @@
     <!--/*We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.*/-->
-
-    <div class="container col-sm-5 spacing">
-      <div class="panel panel-default">
-        <div class="panel-heading">Claim Splitter</div>
-        <div class="panel-body">
-          <div class="col-sm-12 spacing">
-            <input type="text" id="claim-input-path" placeholder="Input PDF" readonly>
-            <button id="claim-input-button" class="btn-default">Browse</button>
-          </div>
-          <div class="col-sm-12 spacing">
-            <input type="text" id="claim-output-path" placeholder="Output Folder" readonly>
-            <button id="claim-output-button" class="btn-default">Browse</button>
-          </div>
-          <div class="col-sm-5 col-sm-offset-6 spacing">
-            <button id="claim-split-start" class="btn-success">Start</button>
-            <button id="claim-split-stop" class="btn-danger">Stop</button>
+    <div class="col-sm-12 wrapper">
+      <div class="container col-sm-5 col-sm-offset-1 spacing">
+        <div class="panel panel-default">
+          <div class="panel-heading">Claim Splitter</div>
+          <div class="panel-body">
+            <div class="col-sm-12 spacing">
+              <input type="text" id="claim-input-path" placeholder="Input PDF" readonly>
+              <button id="claim-input-button" class="btn-default">Browse</button>
+            </div>
+            <div class="col-sm-12 spacing">
+              <input type="text" id="claim-output-path" placeholder="Output Folder" readonly>
+              <button id="claim-output-button" class="btn-default">Browse</button>
+            </div>
+            <div class="col-sm-6 col-sm-offset-6 spacing">
+              <button id="claim-split-start" class="btn-success">Start</button>
+              <!--<button id="claim-split-stop" class="btn-danger">Stop</button>-->
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="container col-sm-5 spacing">
+        <div class="panel panel-default">
+          <div class="panel-heading">Correlated Print</div>
+          <div class="panel-body">
+            <div class="col-sm-12 spacing">
+              <input type="text" id="claim-input-path" placeholder="Input PDF" readonly>
+              <button id="claim-input-button" class="btn-default">Browse</button>
+            </div>
+            <div class="col-sm-12 spacing">
+              <input type="text" id="claim-output-path" placeholder="Output Folder" readonly>
+              <button id="claim-output-button" class="btn-default">Browse</button>
+            </div>
+            <div class="col-sm-6 col-sm-offset-6 spacing">
+              <button id="claim-split-start" class="btn-success">Start</button>
+              <!--<button id="claim-split-stop" class="btn-danger">Stop</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <section class="controls">
+    <!--<section class="controls">
       <button id="open-file-pdf" class="btn-default">Open PDF File</button>
       <button id="open-file-excel" class="btn-default">Open Excel File</button>
       <button id="open-folder" class="btn-default">Open Folder containing info</button>
@@ -43,7 +65,15 @@
 
       <label for="pdf-path">PDF Path:</label>
       <input type="text" id="pdf-path" readonly>
-    </section>
+    </section>-->
+    <div class="navbar navbar-fixed-bottom">
+      <div class="container col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">Console</div>
+          <div class="panel-body console" id="console"></div>
+        </div>
+      </div>
+    </div>
     <script>
       require('./renderer');
     </script>

@@ -6,6 +6,7 @@ var path = require("path")
 module.exports = {
 
     pdfParseAndSplit: function(inputFile, outputLoc){
+        console.log("Parsing... Please wait")
         let pdfParser = new PDFParser();
         var acnArr = [];
         pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
@@ -61,10 +62,11 @@ var createAcnPgArr = function(arr){
 
 var splitPdfRecursive = function(inputFile, outputLoc, arr, index){
   if ( index === arr.length ) return 1
-  var msg = "pdftk " + path.normalize(inputFile) + " cat " + arr[index].start + "-" + arr[index].end + " output " + path.normalize(outputLoc + "\\" + arr[index].claimNum + ".pdf");
+  var msg = 'pdftk ' + '"' + path.normalize(inputFile) + '"' + ' cat ' + arr[index].start + '-' + arr[index].end + ' output ' + '"' + path.normalize(outputLoc + '\\' + arr[index].claimNum + '.pdf') + '"';
   console.log("Working on " + arr[index].claimNum + " (" + (index+1) + " of " + (arr.length) + ") " + "(Pages " + arr[index].start + "-" + arr[index].end + ")");
-  cmd.get(msg, function(){
+  cmd.get(msg, function(err, data){
       //add err handling here
+      if(err) console.log('ERROR');
       splitPdfRecursive(inputFile, outputLoc, arr, index+1);
   });
 };
