@@ -13,9 +13,10 @@ var correlatedPrint = function(xlFile, medrecLoc, claimLoc, uri){
     var workObj = excel.excelToJSON(xlFile);
     // console.log(workObj);
     // workObj.forEach(function(entry, index){
+    var printObj = [];
     for (i=0; i<workObj.length; i++){
         var Accn = workObj[i]['Accn ID'];
-        console.log('Working on ' + Accn + ' (' +  (i+1) + ' of ' + workObj.length + ')');
+        // console.log('Working on ' + Accn + ' (' +  (i+1) + ' of ' + workObj.length + ')');
         var medRec = findFile(medrecLoc, Accn);
         var claim = findFile(claimLoc, Accn);
         if (!medRec){
@@ -28,21 +29,34 @@ var correlatedPrint = function(xlFile, medrecLoc, claimLoc, uri){
         }
         var medRecFilePath = medrecLoc + '\\' + medRec;
         var claimFilePath = claimLoc + '\\' + claim;
-        print.printWithOptions(claimFilePath, uri, 'claim');
-        print.printWithOptions(medRecFilePath, uri, 'medrec');
-        console.log('sent')
+        printObj.push({
+            accn: Accn,
+            type: 'claim',
+            path: claimFilePath
+        });
+        printObj.push({
+            accn: Accn,
+            type: 'medrec',
+            path: medRecFilePath
+        });
     };
+    print.printObj(printObj, uri, 0);
+    // console.log(printObj);
 }
 
 var findFile = function(searchLoc, Accn){
     var files = fs.readdirSync(searchLoc);
-    for (i=0; i<files.length; i++){
-        if ( files[i].toLowerCase().indexOf(Accn.toLowerCase()) >= 0 ){
-            return files[i]
+    for (f=0; f<files.length; f++){
+        if ( files[f].toLowerCase().indexOf(Accn.toLowerCase()) >= 0 ){
+            return files[f]
         };
     };
     return 0
 };
+
+// print.printWithOptions('c:\\users\\whansen\\desktop\\2017-05-25-0921-whansen\\AB3047155_2017-05-25-0921-whansen.pdf', 'http://10.1.205.71', 'medrec');
+
+// console.log(fs.readFileSync('c:\\users\\whansen\\desktop\\2017-05-25-0921-whansen\\AB3047155_2017-05-25-0921-whansen.pdf','hex'));
 
 correlatedPrint('c:\\users\\whansen\\desktop\\test1.xlsx', 'c:\\users\\whansen\\desktop\\2017-05-25-0921-whansen', 'C:\\Users\\whansen\\Desktop\\pdfParser\\work\\New folder', 'http://10.1.205.71');
 // console.log(findFile('c:\\users\\whansen\\desktop\\2017-05-16-1253-whansen', 'AB1382963'));

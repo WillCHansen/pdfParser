@@ -2,6 +2,7 @@ var PDFDocument = require("pdfkit");
 var path = require('path');
 let fs = require('fs');
 var ipp = require('ipp');
+var events = require('events')
 // var uri = "http://10.1.205.71";
 // claims print to tray 2 everything else to tray 1
 
@@ -9,27 +10,53 @@ module.exports = {
   printWithOptions: function(file, uri, type){
     console.log("Printing " + file + " as " + type);
     file = path.normalize(file);
-    var readStream = fs.createReadStream(file);
 
-    var buffers = [];
-    readStream.on('data', buffers.push.bind(buffers));
-    readStream.on('end', function(){
+      var buf = new Buffer(fs.readFileSync(file, 'hex'), 'hex')
       var msg = createMsg(uri, type);
-      var buf = Buffer.concat(buffers);
-      // console.log(ipp.parse(msg));
       var catBuf = Buffer.concat([msg, buf]);
-      console.log(file);
       ipp.request(uri, catBuf, function(err, res){
         if(err){
           return console.log("Error Printing!");
         }
-        console.log("Success Printing!");
-        console.log(JSON.stringify(res,null,2));
+        console.log("Success Printing " + file);
+        // console.log(JSON.stringify(res,null,2));
       });
+  },
+
+  printObj: function(obj, uri, index){
+    if ( index === obj.length ) return 1
+    console.log("Printing " + obj[index].accn + " as " + obj[index].type);
+    var file = path.normalize(obj[index].path);
+    var buf = new Buffer(fs.readFileSync(file, 'hex'), 'hex');
+    var msg = createMsg(uri, obj[index].type);
+    var catBuf = Buffer.concat([msg, buf]);
+    ipp.request(uri, catBuf, function(err, res){
+      if(err){
+        return console.log("Error Printing!");
+      }
+      console.log("Success Printing " + obj[index].accn + " as " + obj[index].type);
+      printObj(obj, uri, index+1);
+      // console.log(JSON.stringify(res,null,2));
     });
   }
 };
 
+var printObj = function(obj, uri, index){
+  if ( index === obj.length ) return 1
+  console.log("Printing " + obj[index].accn + " as " + obj[index].type);
+  var file = path.normalize(obj[index].path);
+  var buf = new Buffer(fs.readFileSync(file, 'hex'), 'hex');
+  var msg = createMsg(uri, obj[index].type);
+  var catBuf = Buffer.concat([msg, buf]);
+  ipp.request(uri, catBuf, function(err, res){
+    if(err){
+      return console.log("Error Printing!");
+    }
+    console.log("Success Printing " + obj[index].accn + " as " + obj[index].type);
+    printObj(obj, uri, index+1);
+    // console.log(JSON.stringify(res,null,2));
+  });
+};
 // var msg = new Buffer(
 //   '0200'+ //Version
 //   '000201e6d5f2'+
