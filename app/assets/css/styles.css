@@ -5,10 +5,14 @@
 .console{
     background-color: #202020;
     color: white;
-    min-height: 150px;
-    max-height: 150px;
+    min-height: 200px;
+    max-height: 200px;
     overflow: scroll;
 }
 html, body {
   background-color: #686868;
+}
+.spacing-more{
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
