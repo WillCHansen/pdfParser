@@ -18,6 +18,7 @@ const $printPrinterIp = $('#print-printer-ip');
 const $printExcelButton = $('#print-excel-button');
 const $printClaimInputButton = $('#print-claim-input-button');
 const $printMedrecInputButton = $('#print-medrec-input-button');
+const $printStart = $('#print-start');
 
 // const $claimSplitStop = $('#claim-split-stop');
 
@@ -101,4 +102,30 @@ $claimSplitStart.on('click', () => {
     };
     logEvent("Starting....");
     mainProcess.pdfTools.pdfParseAndSplit(inFile, outFolder);
+});
+
+$printStart.on('click', () => {
+    var inExcel = $printExcelInputPath.val();
+    var inClaimsLoc = $printClaimInputPath.val();
+    var inMedRecLoc = $printMedrecInputPath.val();
+    var printIP = $printPrinterIp.val();
+
+    if (!inExcel){
+        logEvent("ERROR, NO INPUT EXCEL FILE SELECTED");
+        return 0
+    };
+    if (!inClaimsLoc){
+        logEvent("ERROR, NO INPUT CLAIM FOLDER SELECTED");
+        return 0
+    };
+    if (!inMedRecLoc){
+        logEvent("ERROR, NO INPUT MEDREC FOLDER SELECTED");
+        return 0
+    };
+    if (!printIP){
+        logEvent("ERROR, NO INPUT PRINTER IP ADDRESS");
+        return 0
+    };
+    logEvent("Starting....");
+    mainProcess.print.correlatedPrint(inExcel, inMedRecLoc, inClaimsLoc, printIP);
 });

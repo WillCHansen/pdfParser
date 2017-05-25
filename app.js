@@ -1,4 +1,6 @@
 const pdfTools = require('./app/modules/pdfTools');
+const print = require('./app/modules/correlatedPrint');
+
 
 // var inputFile = "c://users//whansen//desktop//pdfparser//work//FileServerServlet.pdf";
 // var outputLoc = "c://users//whansen//desktop//pdfparser//work";
@@ -26,6 +28,7 @@ const logEvent = function(data){
 
 exports.openDiag = openDiag;
 exports.pdfTools = pdfTools;
+exports.print = print;
 console.log = logEvent;
 
 let win
