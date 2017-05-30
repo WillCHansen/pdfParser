@@ -1,7 +1,8 @@
 {
   "name": "pdfparser",
+  "productName": "HIM Print Tool",
   "version": "1.0.0",
-  "description": "Parse PDF into multiple files by account",
+  "description": "Multiple tools for the HIM team",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,5 +25,9 @@
     "pdf2json": "^1.1.7",
     "pdfkit": "^0.8.0",
     "xlsx": "^0.10.3"
+  },
+  "devDependencies": {
+    "electron": "^1.6.10",
+    "electron-packager": "^8.7.0"
   }
 }
