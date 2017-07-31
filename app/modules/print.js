@@ -52,7 +52,19 @@ var printObj = function(obj, uri, index){
     if(err){
       return console.log("Error Printing!");
     }
+
+    // var printer = ipp.Printer(uri);
+    // var msg = {
+    //   "operation-attributes-tag": {
+    //     'job-uri': res['job-attributes-tag']['job.uri']
+    //   }
+    // };
+    // printer.execute("Get-Job-Attributes", msg, function(err, res1){
+    //   console.log(res1);
+    // });
+
     console.log("Success Printing " + obj[index].accn + " as " + obj[index].type);
+    // console.log(JSON.stringify(res,null,2));
     printObj(obj, uri, index+1);
     // console.log(JSON.stringify(res,null,2));
   });
@@ -105,12 +117,15 @@ var stringToHex = function(str){
     return arr.toString().replace(/,/g , "");
 }
 
+// 02 00 00 00 05 20 82 1a 01 22 00 16 69 70 70 2d 61 74 74 72 69 62 75 74 65 2d 66 69 64 65 6c 69 74 79 00 01 00 03
+
 var createMsg = function(uri, type){
   if ( type === 'claim'){
     var claimMsg = new Buffer(
       '0200'+ //Version
       '000201e6d5f2'+
       '01'+ //Operation attributes tag
+        '2200166970702d6174747269627574652d666964656c697479000100'+ //no scaling
         '47'+ //charset tag
         '0012'+ //length
         '617474726962757465732d63686172736574'+ //attributes-charset
@@ -143,7 +158,7 @@ var createMsg = function(uri, type){
           '44'+ // collection entry
           '0000'+ //name length
           '0006'+ //value length
-          '747261792d32'+ //tray-2
+          '747261792d34'+ //tray-4
         '37'+ //end of collection
         '00000000'+ //name length and value length
         '44'+

@@ -13,9 +13,9 @@ module.exports = {
         pdfParser.on("pdfParser_dataReady", pdfData => {
             for (i=0; i<pdfData.formImage.Pages.length; i++){
                 for (y=0; y<pdfData.formImage.Pages[i].Texts.length; y++){
-                    if (pdfData.formImage.Pages[i].Texts[y].x > 11 &&
+                    if (pdfData.formImage.Pages[i].Texts[y].x > 10.5 &&
                     pdfData.formImage.Pages[i].Texts[y].x < 11.5 &&
-                    pdfData.formImage.Pages[i].Texts[y].y > 43 &&
+                    pdfData.formImage.Pages[i].Texts[y].y > 42 &&
                     pdfData.formImage.Pages[i].Texts[y].y < 44 &&
                     pdfData.formImage.Pages[i].Texts[y].w == 86.4 &&
                     pdfData.formImage.Pages[i].Texts[y].sw == 0.78125 &&
